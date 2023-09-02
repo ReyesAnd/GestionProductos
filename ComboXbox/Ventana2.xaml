@@ -16,7 +16,9 @@
         <TextBox Name="InsertarDescripcion" FontSize="16" HorizontalAlignment="Left" Margin="87,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="479"/>
 
         <Label Content="Categoria" FontSize="16" HorizontalAlignment="Left" Margin="87,260,0,0" VerticalAlignment="Top"/>
-        <TextBox Name="InsertarCategoria" HorizontalAlignment="Left" FontSize="16" Margin="87,310,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="190"/>
-        <Button Content="Insertar" FontSize="16" HorizontalAlignment="Left" Margin="126,356,0,0" VerticalAlignment="Top" Height="37" Width="79" Click="Button_Click"/>
+        <ComboBox Name="InsertarCategoria" FontSize="16" HorizontalAlignment="Left" Margin="87,296,0,0" VerticalAlignment="Top" Width="216"/>
+        
+        <Button Content="Insertar" FontSize="16" HorizontalAlignment="Left" Margin="580,333,0,0" VerticalAlignment="Top" Height="37" Width="79" Click="Button_Click"/>
+        
     </Grid>
 </Window>

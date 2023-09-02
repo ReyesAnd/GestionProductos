@@ -20,19 +20,20 @@ using System.Windows.Shapes;
 
 namespace ComboXbox
 {
-    /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
-    /// </summary>
+    //TODO: Se resolvio el error de categoria en la ventana de actualizar y Main.
+    //          Falta por corregir al eliminar y poner un boton para agregar nuevas categorias.
+
     public partial class MainWindow : Window
     {
-        SqlConnection myConnection;
+        SqlConnection MyConnection;
+        
         public MainWindow()
         {
             InitializeComponent();
 
             string myConnectionString = ConfigurationManager.ConnectionStrings["ComboXbox.Properties.Settings.SQLDBConnectionString"].ConnectionString;
 
-            myConnection = new SqlConnection(myConnectionString);
+            MyConnection = new SqlConnection(myConnectionString);
 
             MostrarCategorias();
             //MuestraProductos();
@@ -43,16 +44,16 @@ namespace ComboXbox
             try
             {
                 string consulta = "SELECT * FROM Productos WHERE Categoria = @CATEGORIASELECTED ORDER BY Nombre";
-                SqlCommand myCommand = new SqlCommand(consulta, myConnection);
-                SqlDataAdapter myDataAdapter = new SqlDataAdapter(myCommand);
+                SqlCommand MyCommand = new SqlCommand(consulta, MyConnection);
+                SqlDataAdapter MyDataAdapter = new SqlDataAdapter(MyCommand);
 
-                using (myDataAdapter)
+                using (MyDataAdapter)
                 {
-                    myCommand.Parameters.AddWithValue("@CATEGORIASELECTED", boxCategoria.SelectedValue);
+                    MyCommand.Parameters.AddWithValue("@CATEGORIASELECTED", boxCategoria.SelectedValue);
 
                     DataTable TableProducto = new DataTable();
 
-                    myDataAdapter.Fill(TableProducto);
+                    MyDataAdapter.Fill(TableProducto);
 
                     productInfoListBox.DisplayMemberPath = "Nombre";
                     productInfoListBox.SelectedValuePath = "Id";
@@ -70,7 +71,7 @@ namespace ComboXbox
             try
             {
                 string consulta = "SELECT Descripcion FROM Productos WHERE Id = @ProductoId";
-                SqlCommand CommandSQL = new SqlCommand(consulta, myConnection);
+                SqlCommand CommandSQL = new SqlCommand(consulta, MyConnection);
                 SqlDataAdapter MyDataAdapter = new SqlDataAdapter(CommandSQL);
 
                 using (MyDataAdapter)
@@ -101,7 +102,7 @@ namespace ComboXbox
                 string consulta = "SELECT CONCAT('Disponibilidad local: ', [Disponibilidad Local], '\nDisponibilidad Miami: '," +
                     " [Disponibilidad Miami]) AS DispCompleta FROM Almacen A INNER JOIN Productos P ON A.Id = P.Id WHERE A.Id = @ProductoId";
 
-                SqlCommand CommandSQL = new SqlCommand(consulta, myConnection);
+                SqlCommand CommandSQL = new SqlCommand(consulta, MyConnection);
                 SqlDataAdapter myDataAdapter = new SqlDataAdapter(CommandSQL);
 
                 using (myDataAdapter)
@@ -126,8 +127,8 @@ namespace ComboXbox
         {
             try
             {
-                string consulta = "SELECT Categoria FROM Productos GROUP BY Categoria";
-                SqlDataAdapter myDataAdapter = new SqlDataAdapter(consulta, myConnection);
+                string consulta = "SELECT Categoria FROM Categorias";
+                SqlDataAdapter myDataAdapter = new SqlDataAdapter(consulta, MyConnection);
 
                 using (myDataAdapter)
                 {
@@ -157,9 +158,8 @@ namespace ComboXbox
             {
                 string consulta = "DELETE FROM Productos WHERE ID=@PRODUCTO";
 
-                SqlCommand CommandSql = new SqlCommand(consulta, myConnection);
-
-                myConnection.Open();
+                SqlCommand CommandSql = new SqlCommand(consulta, MyConnection);
+                MyConnection.Open();
 
                 CommandSql.Parameters.AddWithValue("@PRODUCTO", productInfoListBox.SelectedValue);
 
@@ -168,7 +168,7 @@ namespace ComboXbox
                 MostrarCategorias();
                 MuestraProductos();
 
-                myConnection.Close();
+                MyConnection.Close();
             }
             catch(Exception ex)
             {
@@ -193,7 +193,7 @@ namespace ComboXbox
             {
                 string consulta = "SELECT Nombre, Descripcion, Categoria FROM Productos WHERE Id = @SelectedId";
 
-                SqlCommand myCommandSql = new SqlCommand(consulta, myConnection);
+                SqlCommand myCommandSql = new SqlCommand(consulta, MyConnection);
                 SqlDataAdapter myDataAdapter = new SqlDataAdapter(myCommandSql);
 
                 using (myDataAdapter)
@@ -210,12 +210,11 @@ namespace ComboXbox
 
                 ActualizarVentana.ShowDialog();
             }
-            catch(Exception ex)
+            catch
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show("Selecciones un producto.");
             }
 
-            MostrarCategorias();
             MuestraProductos();
         }
 

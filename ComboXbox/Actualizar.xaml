@@ -16,7 +16,7 @@
         <TextBox Name="ActualizarDescripcion" FontSize="16" HorizontalAlignment="Left" Margin="87,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="479"/>
 
         <Label Content="Categoria" FontSize="16" HorizontalAlignment="Left" Margin="87,260,0,0" VerticalAlignment="Top"/>
-        <TextBox Name="ActualizarCategoria" HorizontalAlignment="Left" FontSize="16" Margin="87,310,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="190"/>
-        <Button Content="Actualizar" FontSize="16" HorizontalAlignment="Left" Margin="126,356,0,0" VerticalAlignment="Top" Height="37" Width="79" Click="Button_Click_1"/>
+        <ComboBox Name="ActualizarCategoria" FontSize="16" HorizontalAlignment="Left" Margin="87,296,0,0" VerticalAlignment="Top" Width="223"/>
+        <Button Content="Actualizar" FontSize="16" HorizontalAlignment="Left" Margin="586,349,0,0" VerticalAlignment="Top" Height="37" Width="79" Click="Button_Click_1"/>
     </Grid>
 </Window>

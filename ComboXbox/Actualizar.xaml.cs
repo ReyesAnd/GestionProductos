@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace ComboXbox
     /// </summary>
     public partial class Actualizar : Window
     {
-        SqlConnection myConnection;
+        SqlConnection MyConnection;
         private int numId;
         public Actualizar(int auxId)
         {
@@ -31,7 +32,25 @@ namespace ComboXbox
             numId = auxId;
 
             string myConnectionString = ConfigurationManager.ConnectionStrings["ComboXbox.Properties.Settings.SQLDBConnectionString"].ConnectionString;
-            myConnection = new SqlConnection(myConnectionString);
+            MyConnection = new SqlConnection(myConnectionString);
+
+            MuestraCategorias();
+        }
+
+        private void MuestraCategorias()
+        {
+            string consulta = "SELECT Categoria FROM Categorias";
+            SqlDataAdapter MyDataAdapter = new SqlDataAdapter(consulta, MyConnection);
+
+            using (MyDataAdapter)
+            {
+                DataTable MyTable = new DataTable();
+                MyDataAdapter.Fill(MyTable);
+
+                ActualizarCategoria.DisplayMemberPath = "Categoria";
+                ActualizarCategoria.SelectedValuePath = "Id";
+                ActualizarCategoria.ItemsSource = MyTable.DefaultView;
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -40,17 +59,17 @@ namespace ComboXbox
             {
                 string consulta = "UPDATE Productos SET Nombre = @NOMBRE, Descripcion = @DESCRIPCION, Categoria = @CATEGORIA WHERE Id =" + numId;
 
-                SqlCommand myCommand = new SqlCommand(consulta, myConnection);
+                SqlCommand MyCommand = new SqlCommand(consulta, MyConnection);
                 
-                myConnection.Open();
+                MyConnection.Open();
 
-                myCommand.Parameters.AddWithValue("@NOMBRE", ActualizarNombre.Text);
-                myCommand.Parameters.AddWithValue("@DESCRIPCION", ActualizarDescripcion.Text);
-                myCommand.Parameters.AddWithValue("@CATEGORIA", ActualizarCategoria.Text);
+                MyCommand.Parameters.AddWithValue("@NOMBRE", ActualizarNombre.Text);
+                MyCommand.Parameters.AddWithValue("@DESCRIPCION", ActualizarDescripcion.Text);
+                MyCommand.Parameters.AddWithValue("@CATEGORIA", ActualizarCategoria.Text);
 
-                myCommand.ExecuteNonQuery();
+                MyCommand.ExecuteNonQuery();
 
-                myConnection.Close();
+                MyConnection.Close();
 
                 this.Close();
             }
