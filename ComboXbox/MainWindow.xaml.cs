@@ -20,8 +20,7 @@ using System.Windows.Shapes;
 
 namespace ComboXbox
 {
-    //TODO: Se resolvio el error de categoria en la ventana de actualizar y Main.
-    //          Falta por corregir al eliminar y poner un boton para agregar nuevas categorias.
+    //TODO: Se resolvio el error de categoria en el CRUD, actualizar vista para agregar administrador de categorias.
 
     public partial class MainWindow : Window
     {
@@ -165,7 +164,6 @@ namespace ComboXbox
 
                 CommandSql.ExecuteNonQuery();
 
-                MostrarCategorias();
                 MuestraProductos();
 
                 MyConnection.Close();
@@ -181,7 +179,6 @@ namespace ComboXbox
             Ventana2 InsertarVentana = new Ventana2();
             InsertarVentana.ShowDialog();
 
-            MostrarCategorias();
             MuestraProductos();
         }
 
